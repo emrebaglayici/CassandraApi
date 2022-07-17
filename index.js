@@ -24,6 +24,7 @@ app.get('/burgers', (req, res) => {
 
         }
     }
+
     fetch(url, options)
         .then(response => response.json())
         .then(json => res.json(json))
