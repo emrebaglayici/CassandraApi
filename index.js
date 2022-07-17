@@ -20,7 +20,7 @@ app.get('/burgers', (req, res) => {
         method: 'Get',
         headers: {
             Accept: 'application/json',
-            'X-Cassandra-Token': 'AstraCS:gLZNhnZhCJDszgBQWhEDRLja:232cd4bfcf20e3d6d0dcf82094e0f14825be9b83f9218da9e2b1f0f9e26ff763'
+            'X-Cassandra-Token': ':))'
 
         }
     }
