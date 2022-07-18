@@ -4,7 +4,6 @@ const cors = require('cors')
 const morgan = require('morgan')
 const fetch = require('node-fetch')
 require('dotenv').config()
-morgan('tiny')
 
 const app = express()
 app.use(morgan('tiny'))
@@ -14,13 +13,12 @@ app.use(express.json())
 //1.54
 //get all the restaurant data
 app.get('/burgers', (req, res) => {
-    const url = 'https://74e73271-ea3c-4d12-8ea1-cfe4efd9666a-us-east1.apps.astra.datastax.com/api/rest/v2/namespaces/burgers/collections/burger_info?page-size=20'
-
+    const url=process.env.ENDPOINT
     const options = {
         method: 'Get',
         headers: {
             Accept: 'application/json',
-            'X-Cassandra-Token': ':))'
+            'X-Cassandra-Token':process.env.ASTRA_TOKEN
 
         }
     }
@@ -30,5 +28,19 @@ app.get('/burgers', (req, res) => {
         .then(json => res.json(json))
         .catch(err => console.log('error' + err))
 })
+
+function notFound(req,res,next){
+    res.status(404)
+    const error=new Error('Not Found')
+    next(error)
+}
+function errorHandler(error,req,res){
+    res.status(res.statusCode || 500)
+    res.json({
+        message:error.message
+    })
+}
+app.use(notFound)
+app.use(errorHandler)
 
 app.listen(PORT, () => console.log(`server is running on port${PORT}`))
